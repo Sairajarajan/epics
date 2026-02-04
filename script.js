@@ -44,7 +44,7 @@ const lessonVideoInput = document.querySelector("#lessonVideoInput");
 const lessonCaptionInput = document.querySelector("#lessonCaptionInput");
 const signWordInput = document.querySelector("#signWordInput");
 const signCategoryInput = document.querySelector("#signCategoryInput");
-const signEmojiInput = document.querySelector("#signEmojiInput");
+const signVideoInput = document.querySelector("#signVideoInput");
 const streakFill = document.querySelector("#streakFill");
 const lessonFill = document.querySelector("#lessonFill");
 const quizFill = document.querySelector("#quizFill");
@@ -121,51 +121,66 @@ const levelSettings = {
 };
 
 const root = document.documentElement;
+const placeholderPoster =
+  "data:image/svg+xml;utf8," +
+  "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'>" +
+  "<rect width='100%25' height='100%25' fill='%23f7f7ff'/>" +
+  "<text x='50%25' y='50%25' fill='%23666' font-family='Arial' font-size='28' text-anchor='middle' dominant-baseline='middle'>" +
+  "Upload sign video" +
+  "</text></svg>";
+
 const signAssets = {
   "Thank You": {
-    image:
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80",
+    video: "",
     alt: "Person signing thank you",
   },
+  "My Name": {
+    video: "",
+    alt: "Person signing my name",
+  },
+  "Good Morning": {
+    video: "",
+    alt: "Person signing good morning",
+  },
+  "Good Afternoon": {
+    video: "",
+    alt: "Person signing good afternoon",
+  },
   Friend: {
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80",
+    video: "",
     alt: "Person signing friend",
   },
   Play: {
-    image:
-      "https://images.unsplash.com/photo-1504151932400-72d4384f04b3?auto=format&fit=crop&w=300&q=80",
+    video: "",
     alt: "Person signing play",
   },
   Happy: {
-    image:
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80",
+    video: "",
     alt: "Person signing happy",
   },
   Family: {
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80",
+    video: "",
     alt: "Person signing family",
   },
   Sorry: {
-    image:
-      "https://images.unsplash.com/photo-1504151932400-72d4384f04b3?auto=format&fit=crop&w=300&q=80",
+    video: "",
     alt: "Person signing sorry",
   },
   Love: {
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
+    video: "",
     alt: "Person signing love",
   },
   School: {
-    image:
-      "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=300&q=80",
+    video: "",
     alt: "Person signing school",
   },
 };
 
 const signDictionary = [
   { word: "Thank You", category: "Gratitude" },
+  { word: "My Name", category: "Introductions" },
+  { word: "Good Morning", category: "Greetings" },
+  { word: "Good Afternoon", category: "Greetings" },
   { word: "Friend", category: "People" },
   { word: "Play", category: "Activity" },
   { word: "Happy", category: "Emotions" },
@@ -175,20 +190,21 @@ const signDictionary = [
   { word: "School", category: "Places" },
 ].map((item) => ({
   ...item,
-  image: signAssets[item.word]?.image,
+  video: signAssets[item.word]?.video,
   alt: signAssets[item.word]?.alt || `Sign for ${item.word}`,
+  poster: placeholderPoster,
 }));
 
 const quizBank = {
   beginner: [
     {
       question: 'Which sign means "Thank You"?',
-      options: ["Thank You", "Happy", "Play"],
+      options: ["Thank You", "Good Morning", "Play"],
       answer: "Thank You",
     },
     {
       question: 'Pick the sign for "Happy".',
-      options: ["Happy", "Sorry", "Friend"],
+      options: ["Happy", "Sorry", "My Name"],
       answer: "Happy",
     },
     {
@@ -200,7 +216,7 @@ const quizBank = {
   intermediate: [
     {
       question: 'Choose the sign for "Family".',
-      options: ["Family", "Play", "Sorry", "School"],
+      options: ["Family", "Play", "Good Afternoon", "School"],
       answer: "Family",
     },
     {
@@ -210,24 +226,24 @@ const quizBank = {
     },
     {
       question: 'Pick the sign for "School".',
-      options: ["School", "Play", "Friend", "Love"],
+      options: ["School", "Play", "Friend", "My Name"],
       answer: "School",
     },
   ],
   advanced: [
     {
       question: 'Which sign shows "Love"?',
-      options: ["Love", "Thank You", "Sorry", "Play", "Happy"],
+      options: ["Love", "Thank You", "Sorry", "Play", "Good Morning"],
       answer: "Love",
     },
     {
       question: 'Pick the sign for "Gratitude".',
-      options: ["Thank You", "Friend", "School", "Family", "Happy"],
+      options: ["Thank You", "Friend", "School", "Family", "Good Afternoon"],
       answer: "Thank You",
     },
     {
       question: 'Which sign best matches "Play"?',
-      options: ["Play", "Sorry", "Love", "School", "Family"],
+      options: ["Play", "Sorry", "Love", "School", "My Name"],
       answer: "Play",
     },
   ],
@@ -244,15 +260,15 @@ const libraryLessons = [];
 
 const timedQuiz = {
   question: 'Which sign means "Love"?',
-  options: ["Love", "Thank You", "Sorry", "Play"],
+  options: ["Love", "Thank You", "Good Morning", "Play"],
   answer: "Love",
   time: 15,
 };
 
 const matchPairs = [
   { sign: "Thank You", word: "Thank You" },
-  { sign: "Friend", word: "Friend" },
-  { sign: "Play", word: "Play" },
+  { sign: "Good Morning", word: "Good Morning" },
+  { sign: "My Name", word: "My Name" },
 ];
 
 const dragTarget = {
@@ -297,13 +313,24 @@ function renderDictionary(items) {
   }
   dictionaryEmpty.style.display = "none";
   items.forEach((item) => {
+    const asset = signAssets[item.word] || {};
     const card = document.createElement("div");
     card.className = "mini-card";
     card.innerHTML = `
       <h4>${item.word}</h4>
       <p class="chip">${item.category}</p>
-      <div class="mini-loop">
-        <img src="${item.image}" alt="${item.alt}" class="sign-image" />
+      <div class="mini-loop sign-media" data-word="${item.word}">
+        <video
+          class="sign-video"
+          autoplay
+          loop
+          muted
+          playsinline
+          poster="${item.poster}"
+        >
+          ${asset.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
+        </video>
+        <span class="sign-video-label">${asset.video ? "Playing" : "Upload video"}</span>
       </div>
     `;
     dictionaryGrid.appendChild(card);
@@ -340,7 +367,16 @@ function renderQuestion() {
     const asset = signAssets[option];
     button.dataset.value = option;
     button.innerHTML = `
-      <img src="${asset?.image}" alt="${asset?.alt || option}" class="sign-option-image" />
+      <video
+        class="sign-option-video"
+        autoplay
+        loop
+        muted
+        playsinline
+        poster="${placeholderPoster}"
+      >
+        ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
+      </video>
       <span>${option}</span>
     `;
     button.addEventListener("click", () => handleAnswer(option, question.answer));
@@ -438,7 +474,16 @@ function startTimedQuiz() {
     const asset = signAssets[option];
     button.dataset.value = option;
     button.innerHTML = `
-      <img src="${asset?.image}" alt="${asset?.alt || option}" class="sign-option-image" />
+      <video
+        class="sign-option-video"
+        autoplay
+        loop
+        muted
+        playsinline
+        poster="${placeholderPoster}"
+      >
+        ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
+      </video>
       <span>${option}</span>
     `;
     button.addEventListener("click", () => {
@@ -471,7 +516,16 @@ function renderMatchGame() {
     signButton.dataset.value = pair.sign;
     const asset = signAssets[pair.sign];
     signButton.innerHTML = `
-      <img src="${asset?.image}" alt="${asset?.alt || pair.sign}" class="sign-option-image" />
+      <video
+        class="sign-option-video"
+        autoplay
+        loop
+        muted
+        playsinline
+        poster="${placeholderPoster}"
+      >
+        ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
+      </video>
     `;
     signButton.addEventListener("click", () => handleMatchSelection(pair.sign, "sign"));
     matchSigns.appendChild(signButton);
@@ -529,7 +583,16 @@ function renderDragDrop() {
   dragItem.className = "drag-item";
   const asset = signAssets[dragTarget.sign];
   dragItem.innerHTML = `
-    <img src="${asset?.image}" alt="${asset?.alt || dragTarget.sign}" class="sign-option-image" />
+    <video
+      class="sign-option-video"
+      autoplay
+      loop
+      muted
+      playsinline
+      poster="${placeholderPoster}"
+    >
+      ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
+    </video>
   `;
   dragItem.draggable = true;
   dragItem.addEventListener("dragstart", (event) => {
@@ -614,15 +677,19 @@ function handleAdminSign(event) {
   event.preventDefault();
   const word = signWordInput.value.trim();
   const category = signCategoryInput.value.trim();
-  const emoji = signEmojiInput.value.trim();
-  if (!word || !category || !emoji) {
+  const video = signVideoInput.value.trim();
+  if (!word || !category || !video) {
     return;
   }
-  signDictionary.push({ word, category, emoji });
+  signDictionary.push({ word, category, video, poster: placeholderPoster });
+  signAssets[word] = {
+    video,
+    alt: `Person signing ${word}`,
+  };
   uploadList.insertAdjacentHTML("afterbegin", `<li>${word} (sign)</li>`);
   signWordInput.value = "";
   signCategoryInput.value = "";
-  signEmojiInput.value = "";
+  signVideoInput.value = "";
   renderDictionary(signDictionary);
 }
 
