@@ -162,6 +162,14 @@
             <h2>Interactive Sign Dictionary</h2>
             <p>Search by word, topic, or feeling. Animations change based on your level.</p>
           </div>
+          <div class="language-toggle">
+            <span>Sign Pack:</span>
+            <div class="toggle-group" id="signPackToggle">
+              <button class="toggle-btn active" data-pack="asl">ASL</button>
+              <button class="toggle-btn" data-pack="bsl">BSL</button>
+              <button class="toggle-btn" data-pack="isl">ISL</button>
+            </div>
+          </div>
           <div class="dictionary">
             <div class="search">
               <input
@@ -174,6 +182,15 @@
             </div>
             <div class="dictionary-grid" id="dictionaryGrid"></div>
             <p class="empty-state" id="dictionaryEmpty">No signs found. Try another word!</p>
+          </div>
+          <div class="sign-library">
+            <div class="library-player">
+              <video id="signVideoPlayer" controls muted playsinline>
+                <source src="" type="video/mp4" />
+              </video>
+              <div class="video-caption" id="signCaption">Select a sign to play its video.</div>
+            </div>
+            <div class="sign-list" id="signList"></div>
           </div>
         </section>
 
@@ -295,6 +312,31 @@
             <h2>User accounts & saved progress</h2>
             <p>Create a profile to save progress and sync across devices.</p>
           </div>
+          <div class="dashboard-grid">
+            <div class="dashboard-card">
+              <h3>Progress History</h3>
+              <div class="progress-chart" id="progressChart"></div>
+            </div>
+            <div class="dashboard-card">
+              <h3>Weekly Goals</h3>
+              <ul class="goal-list">
+                <li><strong>Mon:</strong> 2 lessons</li>
+                <li><strong>Tue:</strong> 1 lesson + quiz</li>
+                <li><strong>Wed:</strong> Story practice</li>
+                <li><strong>Thu:</strong> 3 new signs</li>
+                <li><strong>Fri:</strong> Review pack</li>
+              </ul>
+            </div>
+            <div class="dashboard-card">
+              <h3>Achievements</h3>
+              <div class="badge-row">
+                <span class="badge">🥇</span>
+                <span class="badge">🎯</span>
+                <span class="badge">📘</span>
+              </div>
+              <p class="reward-note">Next badge: Complete 2 more lessons.</p>
+            </div>
+          </div>
           <div class="account-grid">
             <div class="account-card">
               <h3>Create Account</h3>
@@ -360,7 +402,15 @@
                 <input type="text" id="signCategoryInput" placeholder="Greetings" required />
               </label>
               <label class="field">
+<<<<<<< codex/develop-sign-language-learning-software-oj6bnk
                 Sign video URL
+=======
+                Tags
+                <input type="text" id="signTagsInput" placeholder="greetings,kids,basic" />
+              </label>
+              <label class="field">
+                Sign animation URL (gif/mp4)
+>>>>>>> main
                 <input type="url" id="signVideoInput" placeholder="https://..." required />
               </label>
               <button class="primary-btn" type="submit">Upload Sign</button>
@@ -374,6 +424,47 @@
               </ul>
             </div>
           </div>
+          <div class="admin-grid">
+            <div class="admin-card">
+              <h3>Manage Signs</h3>
+              <div class="table" id="signTable"></div>
+            </div>
+            <div class="admin-card">
+              <h3>Manage Lessons</h3>
+              <div class="table" id="lessonTable"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="lesson-builder" class="section">
+          <div class="section-header">
+            <h2>Lesson builder</h2>
+            <p>Drag steps, quizzes, and sign cards to build a lesson.</p>
+          </div>
+          <div class="builder-grid">
+            <div class="builder-panel">
+              <h3>Steps Palette</h3>
+              <div class="builder-items" id="builderPalette">
+                <div class="builder-item" draggable="true" data-type="video">Video Step</div>
+                <div class="builder-item" draggable="true" data-type="sign">Sign Card</div>
+                <div class="builder-item" draggable="true" data-type="quiz">Quiz Step</div>
+                <div class="builder-item" draggable="true" data-type="story">Story Practice</div>
+              </div>
+            </div>
+            <div class="builder-panel">
+              <h3>Lesson Flow</h3>
+              <div class="builder-drop" id="lessonDrop">Drop steps here</div>
+              <ul class="builder-list" id="lessonList"></ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="adaptive-path" class="section alt">
+          <div class="section-header">
+            <h2>Adaptive learning path</h2>
+            <p>Recommendations change based on age and level.</p>
+          </div>
+          <div class="path-grid" id="pathGrid"></div>
         </section>
 
         <section id="progress" class="section">
