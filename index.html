@@ -192,6 +192,19 @@
             </div>
             <div class="sign-list" id="signList"></div>
           </div>
+          <div class="sentence-builder">
+            <h3>Build a sentence</h3>
+            <p>Type a short sentence and watch the signs play in order.</p>
+            <div class="sentence-controls">
+              <input
+                type="text"
+                id="sentenceInput"
+                placeholder="Example: good morning my name is Sam"
+              />
+              <button class="primary-btn" id="playSentence">Play Sentence</button>
+            </div>
+            <div class="sentence-stage" id="sentenceStage"></div>
+          </div>
         </section>
 
         <section id="practice" class="section">
@@ -402,15 +415,11 @@
                 <input type="text" id="signCategoryInput" placeholder="Greetings" required />
               </label>
               <label class="field">
-<<<<<<< codex/develop-sign-language-learning-software-oj6bnk
-                Sign video URL
-=======
                 Tags
                 <input type="text" id="signTagsInput" placeholder="greetings,kids,basic" />
               </label>
               <label class="field">
                 Sign animation URL (gif/mp4)
->>>>>>> main
                 <input type="url" id="signVideoInput" placeholder="https://..." required />
               </label>
               <button class="primary-btn" type="submit">Upload Sign</button>
@@ -465,6 +474,17 @@
             <p>Recommendations change based on age and level.</p>
           </div>
           <div class="path-grid" id="pathGrid"></div>
+        </section>
+
+        <section id="alphabet" class="section">
+          <div class="section-header">
+            <h2>Sign Language Alphabet Lab</h2>
+            <p>Explore alphabet signs. If the WLALS dataset is available locally, it will load here.</p>
+          </div>
+          <div class="alphabet-status" id="alphabetStatus">
+            Looking for the WLALS dataset...
+          </div>
+          <div class="alphabet-grid" id="alphabetGrid"></div>
         </section>
 
         <section id="progress" class="section">
