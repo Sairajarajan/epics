@@ -3,7 +3,6 @@ import json
 from pathlib import Path
 
 import kagglehub
-from PIL import Image
 
 LETTERS = list("ABCDEFGHIKLMNOPQRSTUVWXY")
 
@@ -17,6 +16,14 @@ def find_csv(dataset_path: Path) -> Path:
 
 
 def save_letter_image(letter: str, pixels: list[int], output_dir: Path) -> str:
+    try:
+        from PIL import Image
+    except ModuleNotFoundError as exc:
+        raise RuntimeError(
+            "Pillow is required to export PNGs. Install it with "
+            "`python -m pip install -r requirements-data.txt`."
+        ) from exc
+
     image = Image.new("L", (28, 28))
     image.putdata(pixels)
     output_dir.mkdir(parents=True, exist_ok=True)
