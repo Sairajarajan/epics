@@ -18,17 +18,25 @@ Open `index.html` in a browser to view the kids-friendly sign language learning 
 including a lesson playlist, a video library player (upload lesson videos to play), dictionary
 search, quizzes (timed, matching, drag & drop), progress tracking, daily goals, account saving,
 and admin uploads.
-<<<<<<< codex/develop-sign-language-learning-software-oj6bnk
-=======
 
-## WLASL alphabet dataset
+## FastAPI backend
 
-To load the WLASL alphabet dataset for the Sign Language Alphabet Lab:
+Serve the site and API together (required for media and dataset loading):
+
+```bash
+pip install -r requirements.txt
+uvicorn backend.app:app --reload
+```
+
+Then open http://127.0.0.1:8000 in your browser.
+
+## Sign Language MNIST alphabet dataset
+
+To load the Sign Language MNIST alphabet dataset for the Sign Language Alphabet Lab:
 
 ```bash
 python scripts/build_wlasl_alphabet.py
 ```
 
-This script downloads the dataset with `kagglehub` and writes `data/wlasl_alphabet.json`,
-which the site will load automatically if present.
->>>>>>> main
+This script downloads the dataset with `kagglehub` and writes
+`data/sign_mnist_alphabet.json`, which the FastAPI backend will serve automatically.
