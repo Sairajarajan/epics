@@ -340,6 +340,56 @@ h4 {
   margin-top: 24px;
 }
 
+.sentence-builder {
+  margin-top: 24px;
+  background: var(--card);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 12px;
+}
+
+.sentence-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sentence-controls input {
+  flex: 1;
+  min-width: 220px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid #d6e9f8;
+  font-weight: 600;
+}
+
+.sentence-stage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sentence-card {
+  background: #f7f7ff;
+  padding: 12px;
+  border-radius: 16px;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  min-width: 110px;
+}
+
+.sentence-card.active {
+  border: 2px solid var(--accent);
+}
+
+.sentence-word {
+  font-weight: 700;
+  color: var(--muted);
+}
+
 .sign-list {
   display: grid;
   gap: 12px;
