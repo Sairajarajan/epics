@@ -109,6 +109,40 @@
           </div>
         </section>
 
+        <section id="videos" class="section alt">
+          <div class="section-header">
+            <h2>Video lessons made for you</h2>
+            <p>Choose a lesson playlist. The tone, speed, and visuals shift with age and level.</p>
+          </div>
+          <div class="video-grid">
+            <div class="video-player">
+              <div class="video-frame">
+                <div class="video-badge">Now Playing</div>
+                <div class="video-emoji">🎬</div>
+                <p class="video-title" id="videoTitle">Greetings with Sunny</p>
+                <p class="video-meta" id="videoMeta">Beginner · 6 min · Friendly pace</p>
+              </div>
+              <div class="video-controls">
+                <button class="ghost-btn" id="prevLesson">Previous</button>
+                <button class="primary-btn" id="playLesson">Play Lesson</button>
+                <button class="ghost-btn" id="nextLesson">Next</button>
+              </div>
+            </div>
+            <div class="playlist">
+              <h3>Playlist</h3>
+              <ul id="playlistList">
+                <li class="active">Greetings with Sunny</li>
+                <li>Family Signs</li>
+                <li>Playtime Signs</li>
+                <li>Feelings Express</li>
+              </ul>
+              <div class="playlist-note">
+                <p><strong>Tip:</strong> Tap a lesson to preview. Videos are sign-only and captioned.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="dictionary" class="section alt">
           <div class="section-header">
             <h2>Interactive Sign Dictionary</h2>
@@ -116,31 +150,16 @@
           </div>
           <div class="dictionary">
             <div class="search">
-              <input type="text" placeholder="Search a sign (e.g., thank you)" />
-              <button class="primary-btn">Search</button>
+              <input
+                type="text"
+                id="dictionarySearch"
+                placeholder="Search a sign (e.g., thank you)"
+                autocomplete="off"
+              />
+              <button class="primary-btn" id="dictionaryButton">Search</button>
             </div>
-            <div class="dictionary-grid">
-              <div class="mini-card">
-                <h4>Thank You</h4>
-                <p class="chip">Gratitude</p>
-                <div class="mini-loop">👏</div>
-              </div>
-              <div class="mini-card">
-                <h4>Friend</h4>
-                <p class="chip">People</p>
-                <div class="mini-loop">🫶</div>
-              </div>
-              <div class="mini-card">
-                <h4>Play</h4>
-                <p class="chip">Activity</p>
-                <div class="mini-loop">🎈</div>
-              </div>
-              <div class="mini-card">
-                <h4>Happy</h4>
-                <p class="chip">Emotions</p>
-                <div class="mini-loop">😊</div>
-              </div>
-            </div>
+            <div class="dictionary-grid" id="dictionaryGrid"></div>
+            <p class="empty-state" id="dictionaryEmpty">No signs found. Try another word!</p>
           </div>
         </section>
 
@@ -161,6 +180,56 @@
             <div class="practice-card">
               <h3>Quick Quiz</h3>
               <p>Pick the right meaning. Visual cues change with the level.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="quiz" class="section alt">
+          <div class="section-header">
+            <h2>Mini quiz time</h2>
+            <p>Answer quick questions. The difficulty adjusts to your level.</p>
+          </div>
+          <div class="quiz-card">
+            <div class="quiz-header">
+              <span class="quiz-badge" id="quizLevel">Beginner</span>
+              <span class="quiz-score">Score: <strong id="quizScore">0</strong></span>
+            </div>
+            <h3 id="quizQuestion">Which sign means "Thank You"?</h3>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback"></div>
+            <div class="quiz-actions">
+              <button class="ghost-btn" id="skipQuestion">Skip</button>
+              <button class="primary-btn" id="nextQuestion">Next Question</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="progress" class="section">
+          <div class="section-header">
+            <h2>Your progress tracker</h2>
+            <p>Track daily learning, quiz streaks, and lesson completion.</p>
+          </div>
+          <div class="progress-grid">
+            <div class="progress-card">
+              <h3>Weekly Streak</h3>
+              <div class="progress-bar">
+                <div class="progress-fill" id="streakFill"></div>
+              </div>
+              <p class="progress-text" id="streakText">4 / 7 days</p>
+            </div>
+            <div class="progress-card">
+              <h3>Lessons Completed</h3>
+              <div class="progress-bar">
+                <div class="progress-fill" id="lessonFill"></div>
+              </div>
+              <p class="progress-text" id="lessonText">6 / 12 lessons</p>
+            </div>
+            <div class="progress-card">
+              <h3>Quiz Accuracy</h3>
+              <div class="progress-bar">
+                <div class="progress-fill" id="quizFill"></div>
+              </div>
+              <p class="progress-text" id="quizText">70% accuracy</p>
             </div>
           </div>
         </section>
