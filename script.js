@@ -238,12 +238,12 @@ const quizBank = {
     },
     {
       question: 'Pick the sign for "Gratitude".',
-      options: ["Thank You", "Friend", "School", "Family", "Good Afternoon"],
+      options: ["Thank You", "Friend", "School", "Family", "Happy"],
       answer: "Thank You",
     },
     {
       question: 'Which sign best matches "Play"?',
-      options: ["Play", "Sorry", "Love", "School", "My Name"],
+      options: ["Play", "Sorry", "Love", "School", "Family"],
       answer: "Play",
     },
   ],
@@ -260,15 +260,15 @@ const libraryLessons = [];
 
 const timedQuiz = {
   question: 'Which sign means "Love"?',
-  options: ["Love", "Thank You", "Good Morning", "Play"],
+  options: ["Love", "Thank You", "Sorry", "Play"],
   answer: "Love",
   time: 15,
 };
 
 const matchPairs = [
   { sign: "Thank You", word: "Thank You" },
-  { sign: "Good Morning", word: "Good Morning" },
-  { sign: "My Name", word: "My Name" },
+  { sign: "Friend", word: "Friend" },
+  { sign: "Play", word: "Play" },
 ];
 
 const dragTarget = {
@@ -313,24 +313,13 @@ function renderDictionary(items) {
   }
   dictionaryEmpty.style.display = "none";
   items.forEach((item) => {
-    const asset = signAssets[item.word] || {};
     const card = document.createElement("div");
     card.className = "mini-card";
     card.innerHTML = `
       <h4>${item.word}</h4>
       <p class="chip">${item.category}</p>
-      <div class="mini-loop sign-media" data-word="${item.word}">
-        <video
-          class="sign-video"
-          autoplay
-          loop
-          muted
-          playsinline
-          poster="${item.poster}"
-        >
-          ${asset.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
-        </video>
-        <span class="sign-video-label">${asset.video ? "Playing" : "Upload video"}</span>
+      <div class="mini-loop">
+        <img src="${item.image}" alt="${item.alt}" class="sign-image" />
       </div>
     `;
     dictionaryGrid.appendChild(card);
@@ -367,16 +356,7 @@ function renderQuestion() {
     const asset = signAssets[option];
     button.dataset.value = option;
     button.innerHTML = `
-      <video
-        class="sign-option-video"
-        autoplay
-        loop
-        muted
-        playsinline
-        poster="${placeholderPoster}"
-      >
-        ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
-      </video>
+      <img src="${asset?.image}" alt="${asset?.alt || option}" class="sign-option-image" />
       <span>${option}</span>
     `;
     button.addEventListener("click", () => handleAnswer(option, question.answer));
@@ -474,16 +454,7 @@ function startTimedQuiz() {
     const asset = signAssets[option];
     button.dataset.value = option;
     button.innerHTML = `
-      <video
-        class="sign-option-video"
-        autoplay
-        loop
-        muted
-        playsinline
-        poster="${placeholderPoster}"
-      >
-        ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
-      </video>
+      <img src="${asset?.image}" alt="${asset?.alt || option}" class="sign-option-image" />
       <span>${option}</span>
     `;
     button.addEventListener("click", () => {
@@ -516,16 +487,7 @@ function renderMatchGame() {
     signButton.dataset.value = pair.sign;
     const asset = signAssets[pair.sign];
     signButton.innerHTML = `
-      <video
-        class="sign-option-video"
-        autoplay
-        loop
-        muted
-        playsinline
-        poster="${placeholderPoster}"
-      >
-        ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
-      </video>
+      <img src="${asset?.image}" alt="${asset?.alt || pair.sign}" class="sign-option-image" />
     `;
     signButton.addEventListener("click", () => handleMatchSelection(pair.sign, "sign"));
     matchSigns.appendChild(signButton);
@@ -583,16 +545,7 @@ function renderDragDrop() {
   dragItem.className = "drag-item";
   const asset = signAssets[dragTarget.sign];
   dragItem.innerHTML = `
-    <video
-      class="sign-option-video"
-      autoplay
-      loop
-      muted
-      playsinline
-      poster="${placeholderPoster}"
-    >
-      ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
-    </video>
+    <img src="${asset?.image}" alt="${asset?.alt || dragTarget.sign}" class="sign-option-image" />
   `;
   dragItem.draggable = true;
   dragItem.addEventListener("dragstart", (event) => {
@@ -677,19 +630,15 @@ function handleAdminSign(event) {
   event.preventDefault();
   const word = signWordInput.value.trim();
   const category = signCategoryInput.value.trim();
-  const video = signVideoInput.value.trim();
-  if (!word || !category || !video) {
+  const emoji = signEmojiInput.value.trim();
+  if (!word || !category || !emoji) {
     return;
   }
-  signDictionary.push({ word, category, video, poster: placeholderPoster });
-  signAssets[word] = {
-    video,
-    alt: `Person signing ${word}`,
-  };
+  signDictionary.push({ word, category, emoji });
   uploadList.insertAdjacentHTML("afterbegin", `<li>${word} (sign)</li>`);
   signWordInput.value = "";
   signCategoryInput.value = "";
-  signVideoInput.value = "";
+  signEmojiInput.value = "";
   renderDictionary(signDictionary);
 }
 
