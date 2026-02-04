@@ -482,6 +482,21 @@ h4 {
   animation: bob 2.6s ease-in-out infinite;
 }
 
+.sign-image {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 8px 16px rgba(41, 61, 92, 0.12);
+}
+
+.sign-option-image {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
 .chip {
   display: inline-block;
   padding: 4px 12px;
@@ -668,6 +683,10 @@ h4 {
   font-weight: 700;
   cursor: pointer;
   transition: transform var(--transition-speed), border-color var(--transition-speed);
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  text-align: center;
 }
 
 .quiz-option:hover {
