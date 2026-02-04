@@ -71,6 +71,8 @@ const builderPalette = document.querySelector("#builderPalette");
 const lessonDrop = document.querySelector("#lessonDrop");
 const lessonList = document.querySelector("#lessonList");
 const pathGrid = document.querySelector("#pathGrid");
+const alphabetStatus = document.querySelector("#alphabetStatus");
+const alphabetGrid = document.querySelector("#alphabetGrid");
 
 const ageThemes = {
   little: {
@@ -454,6 +456,50 @@ function renderAdaptivePath(level) {
   pathGrid.innerHTML = items
     .map((item) => `<div class="path-card"><h4>${item}</h4><p>Recommended for your level.</p></div>`)
     .join("");
+}
+
+function renderAlphabetGrid(items, label = "Alphabet") {
+  alphabetGrid.innerHTML = "";
+  items.forEach((item) => {
+    const card = document.createElement("div");
+    card.className = "alphabet-card";
+    const animation = item.animation || makeSignAnimation(item.letter, "#6dd6ff");
+    card.innerHTML = `
+      <div class="alphabet-letter">${item.letter}</div>
+      <img src="${animation}" alt="${item.alt || `Sign for ${item.letter}`}" class="alphabet-anim" />
+      <div class="sign-caption">${item.caption || label}</div>
+    `;
+    alphabetGrid.appendChild(card);
+  });
+}
+
+async function loadAlphabetDataset() {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const fallback = letters.map((letter) => ({
+    letter,
+    animation: makeSignAnimation(letter, "#6dd6ff"),
+    caption: "Sample animation",
+  }));
+
+  try {
+    const response = await fetch("data/wlasl_alphabet.json");
+    if (!response.ok) {
+      throw new Error("Dataset not found");
+    }
+    const data = await response.json();
+    const items = data.map((item) => ({
+      letter: item.letter,
+      animation: item.animation,
+      caption: item.caption || "WLASL animation",
+      alt: item.alt,
+    }));
+    alphabetStatus.textContent = "Loaded WLASL alphabet dataset.";
+    renderAlphabetGrid(items, "WLASL animation");
+  } catch (error) {
+    alphabetStatus.textContent =
+      "WLASL dataset not found locally. Showing sample animations.";
+    renderAlphabetGrid(fallback, "Sample animation");
+  }
 }
 
 function handlePackToggle(event) {
@@ -887,6 +933,7 @@ renderSignLibrary(signDictionary);
 renderProgressChart();
 renderAdminTables();
 renderAdaptivePath(levelSelect.value);
+loadAlphabetDataset();
 renderMatchGame();
 renderDragDrop();
 renderLibrary();
