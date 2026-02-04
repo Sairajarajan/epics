@@ -6,20 +6,22 @@ import kagglehub
 
 def main() -> None:
     # Download latest version
-    dataset_path = Path(kagglehub.dataset_download("risangbaskoro/wlasl-processed"))
+    dataset_path = Path(kagglehub.dataset_download("datamunge/sign-language-mnist"))
     print("Path to dataset files:", dataset_path)
 
     output_dir = Path("data")
     output_dir.mkdir(exist_ok=True)
-    output_file = output_dir / "wlasl_alphabet.json"
+    output_file = output_dir / "sign_mnist_alphabet.json"
 
-    # TODO: Replace this mock mapping once dataset parsing is confirmed.
-    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    # The MNIST dataset is provided as CSV files. This script only creates
+    # a placeholder mapping for the UI. Use a data processing pipeline to
+    # convert the CSV rows into PNGs and update the JSON with their paths.
+    letters = list("ABCDEFGHIKLMNOPQRSTUVWXY")
     items = [
         {
             "letter": letter,
-            "animation": "",
-            "caption": "Add animation URL from WLASL dataset",
+            "image": "",
+            "caption": "Add image path from Sign Language MNIST",
             "alt": f"Sign for {letter}",
         }
         for letter in letters
