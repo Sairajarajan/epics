@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignSpark - Learn Sign Language</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <nav class="nav">
+          <div class="logo">SignSpark</div>
+          <div class="nav-links">
+            <a href="#lessons">Lessons</a>
+            <a href="#dictionary">Dictionary</a>
+            <a href="#practice">Practice</a>
+          </div>
+          <button class="primary-btn">Join Free</button>
+        </nav>
+        <div class="hero-content">
+          <div class="hero-text">
+            <p class="pill">Kids-friendly learning space</p>
+            <h1>Learn sign language with playful lessons and adaptive animations.</h1>
+            <p>
+              Pick an age group and level to make the visuals, motion, and practice
+              activities match your learner.
+            </p>
+            <div class="controls">
+              <div class="control">
+                <label for="age">Age Group</label>
+                <select id="age">
+                  <option value="little">3-6 (Little Learners)</option>
+                  <option value="kids" selected>7-10 (Kids)</option>
+                  <option value="teens">11-14 (Teens)</option>
+                </select>
+              </div>
+              <div class="control">
+                <label for="level">Level</label>
+                <select id="level">
+                  <option value="beginner" selected>Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                </select>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="primary-btn">Start Learning</button>
+              <button class="ghost-btn">Watch Demo</button>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="bubble bubble-1"></div>
+            <div class="bubble bubble-2"></div>
+            <div class="bubble bubble-3"></div>
+            <div class="floating-card">
+              <h3>Sign of the Day</h3>
+              <p class="sign-word">Hello</p>
+              <div class="sign-loop">
+                <span class="hand">🤟</span>
+                <span class="spark">✨</span>
+              </div>
+              <p class="hint">Wave gently and smile!</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section id="lessons" class="section">
+          <div class="section-header">
+            <h2>Lesson tracks that grow with you</h2>
+            <p>Each track adapts the pace, quiz style, and animations to match your age group.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <h3>Beginner Moves</h3>
+              <p>Visual stories, big icons, and gentle motion to build confidence.</p>
+              <ul>
+                <li>Daily 5-minute practice</li>
+                <li>Picture-led quizzes</li>
+                <li>Soft animation cues</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Intermediate Flow</h3>
+              <p>Blend words into phrases and follow rhythmic hand guides.</p>
+              <ul>
+                <li>Short conversations</li>
+                <li>Memory match games</li>
+                <li>Steady pace</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Advanced Storytelling</h3>
+              <p>Express emotions and tell full stories using fluent signing.</p>
+              <ul>
+                <li>Role-play missions</li>
+                <li>Faster transitions</li>
+                <li>Story builder</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="dictionary" class="section alt">
+          <div class="section-header">
+            <h2>Interactive Sign Dictionary</h2>
+            <p>Search by word, topic, or feeling. Animations change based on your level.</p>
+          </div>
+          <div class="dictionary">
+            <div class="search">
+              <input type="text" placeholder="Search a sign (e.g., thank you)" />
+              <button class="primary-btn">Search</button>
+            </div>
+            <div class="dictionary-grid">
+              <div class="mini-card">
+                <h4>Thank You</h4>
+                <p class="chip">Gratitude</p>
+                <div class="mini-loop">👏</div>
+              </div>
+              <div class="mini-card">
+                <h4>Friend</h4>
+                <p class="chip">People</p>
+                <div class="mini-loop">🫶</div>
+              </div>
+              <div class="mini-card">
+                <h4>Play</h4>
+                <p class="chip">Activity</p>
+                <div class="mini-loop">🎈</div>
+              </div>
+              <div class="mini-card">
+                <h4>Happy</h4>
+                <p class="chip">Emotions</p>
+                <div class="mini-loop">😊</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="practice" class="section">
+          <div class="section-header">
+            <h2>Practice zone</h2>
+            <p>Challenges and rewards adjust to keep learners motivated.</p>
+          </div>
+          <div class="practice-grid">
+            <div class="practice-card">
+              <h3>Gesture Mirror</h3>
+              <p>Follow the motion trail and match the sign in a fun way.</p>
+            </div>
+            <div class="practice-card">
+              <h3>Story Quest</h3>
+              <p>Complete a story using signs. Earn stars based on smoothness.</p>
+            </div>
+            <div class="practice-card">
+              <h3>Quick Quiz</h3>
+              <p>Pick the right meaning. Visual cues change with the level.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Made with joy for sign language learners everywhere.</p>
+        <button class="ghost-btn">Share with Friends</button>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
