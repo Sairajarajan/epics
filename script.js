@@ -73,6 +73,9 @@ const lessonList = document.querySelector("#lessonList");
 const pathGrid = document.querySelector("#pathGrid");
 const alphabetStatus = document.querySelector("#alphabetStatus");
 const alphabetGrid = document.querySelector("#alphabetGrid");
+const sentenceInput = document.querySelector("#sentenceInput");
+const playSentence = document.querySelector("#playSentence");
+const sentenceStage = document.querySelector("#sentenceStage");
 
 const ageThemes = {
   little: {
@@ -426,6 +429,34 @@ function updateSignPlayer(sign) {
   signCaption.textContent = sign.caption || "Sign video coming soon.";
 }
 
+function buildSentenceCards(words, pack) {
+  sentenceStage.innerHTML = "";
+  words.forEach((word) => {
+    const sign = pack.signs.find((item) => item.word.toLowerCase() === word) || {
+      word,
+      animation: makeSignAnimation(word, "#6dd6ff"),
+    };
+    const card = document.createElement("div");
+    card.className = "sentence-card";
+    card.innerHTML = `
+      <img src="${sign.animation}" alt="${sign.word}" class="sign-option-anim" />
+      <div class="sentence-word">${sign.word}</div>
+    `;
+    sentenceStage.appendChild(card);
+  });
+}
+
+function playSentenceSequence(words, pack) {
+  buildSentenceCards(words, pack);
+  const cards = sentenceStage.querySelectorAll(".sentence-card");
+  cards.forEach((card, index) => {
+    setTimeout(() => {
+      cards.forEach((node) => node.classList.remove("active"));
+      card.classList.add("active");
+    }, index * 900);
+  });
+}
+
 function renderProgressChart() {
   progressChart.innerHTML = "";
   const values = [40, 60, 55, 70, 50, 80, 65];
@@ -482,22 +513,22 @@ async function loadAlphabetDataset() {
   }));
 
   try {
-    const response = await fetch("data/wlasl_alphabet.json");
+    const response = await fetch("/api/alphabet");
     if (!response.ok) {
       throw new Error("Dataset not found");
     }
     const data = await response.json();
-    const items = data.map((item) => ({
+    const items = data.items.map((item) => ({
       letter: item.letter,
-      animation: item.animation,
-      caption: item.caption || "WLASL animation",
+      animation: item.image || makeSignAnimation(item.letter, "#6dd6ff"),
+      caption: item.caption || "Sign Language MNIST image",
       alt: item.alt,
     }));
-    alphabetStatus.textContent = "Loaded WLASL alphabet dataset.";
-    renderAlphabetGrid(items, "WLASL animation");
+    alphabetStatus.textContent = "Loaded Sign Language MNIST alphabet dataset.";
+    renderAlphabetGrid(items, "Sign Language MNIST");
   } catch (error) {
     alphabetStatus.textContent =
-      "WLASL dataset not found locally. Showing sample animations.";
+      "Sign Language MNIST dataset not found locally. Showing sample animations.";
     renderAlphabetGrid(fallback, "Sample animation");
   }
 }
@@ -920,6 +951,18 @@ ageSelect.addEventListener("change", applyTheme);
 levelSelect.addEventListener("change", applyTheme);
 
 signPackToggle.addEventListener("click", handlePackToggle);
+playSentence.addEventListener("click", () => {
+  const words = sentenceInput.value
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word) => word.trim())
+    .filter(Boolean);
+  if (!words.length) {
+    return;
+  }
+  const pack = signPacks[currentPack];
+  playSentenceSequence(words, pack);
+});
 builderPalette.querySelectorAll(".builder-item").forEach((item) => {
   item.addEventListener("dragstart", (event) => {
     event.dataTransfer.setData("text/plain", item.dataset.type);
