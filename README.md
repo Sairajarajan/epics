@@ -35,8 +35,13 @@ Then open http://127.0.0.1:8000 in your browser.
 To load the Sign Language MNIST alphabet dataset for the Sign Language Alphabet Lab:
 
 ```bash
+python -m pip install -r requirements-data.txt
 python scripts/build_wlasl_alphabet.py
 ```
 
-This script downloads the dataset with `kagglehub` and writes
-`data/sign_mnist_alphabet.json`, which the FastAPI backend will serve automatically.
+This script downloads the dataset with `kagglehub`, extracts sample PNGs to
+`data/sign_mnist_images/`, and writes `data/sign_mnist_alphabet.json`, which the
+FastAPI backend will serve automatically.
+
+> Note: Pillow does not yet provide Windows wheels for Python 3.14. If you hit a
+> build error, install Python 3.12 and rerun the commands above.
