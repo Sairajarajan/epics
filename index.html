@@ -141,6 +141,24 @@
               </div>
             </div>
           </div>
+          <div class="video-library">
+            <div class="library-player">
+              <video id="lessonVideo" controls poster="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=1200&q=80">
+                <source
+                  src="https://cdn.coverr.co/videos/coverr-happy-girl-in-the-park-1575/1080p.mp4"
+                  type="video/mp4"
+                />
+                Your browser does not support the video tag.
+              </video>
+              <div class="video-caption" id="videoCaption">Lesson captions: Greeting signs with Sunny.</div>
+            </div>
+            <div class="library-list" id="libraryList">
+              <button class="library-item active" data-caption="Greeting signs with Sunny.">Greeting Signs</button>
+              <button class="library-item" data-caption="Family and friends signs with Joy.">Family & Friends</button>
+              <button class="library-item" data-caption="Playtime signs with Rafi.">Playtime</button>
+              <button class="library-item" data-caption="Feelings and emotions with Maya.">Feelings</button>
+            </div>
+          </div>
         </section>
 
         <section id="dictionary" class="section alt">
@@ -200,6 +218,164 @@
             <div class="quiz-actions">
               <button class="ghost-btn" id="skipQuestion">Skip</button>
               <button class="primary-btn" id="nextQuestion">Next Question</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="goals" class="section">
+          <div class="section-header">
+            <h2>Daily goals & rewards</h2>
+            <p>Complete goals to unlock badges and streak rewards.</p>
+          </div>
+          <div class="goals-grid">
+            <div class="goal-card">
+              <h3>Today's Goals</h3>
+              <ul class="goal-list">
+                <li>
+                  <label><input type="checkbox" class="goal-check" /> Watch 1 lesson</label>
+                </li>
+                <li>
+                  <label><input type="checkbox" class="goal-check" /> Practice 5 signs</label>
+                </li>
+                <li>
+                  <label><input type="checkbox" class="goal-check" /> Score 3 quiz points</label>
+                </li>
+              </ul>
+              <p class="goal-progress" id="goalProgress">0 / 3 complete</p>
+            </div>
+            <div class="goal-card">
+              <h3>Rewards</h3>
+              <div class="badge-row" id="badgeRow">
+                <span class="badge locked">🌟</span>
+                <span class="badge locked">🏅</span>
+                <span class="badge locked">🎉</span>
+              </div>
+              <p class="reward-note">Finish goals to unlock today’s badges.</p>
+            </div>
+            <div class="goal-card">
+              <h3>Streak Booster</h3>
+              <p>Current streak: <strong id="streakCount">4 days</strong></p>
+              <button class="primary-btn" id="claimReward">Claim Reward</button>
+              <p class="reward-note" id="rewardMessage">Complete goals to claim.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="quiz-lab" class="section alt">
+          <div class="section-header">
+            <h2>Quiz Lab</h2>
+            <p>Try timed quizzes, matching, and drag & drop activities.</p>
+          </div>
+          <div class="quiz-lab-grid">
+            <div class="lab-card">
+              <h3>Timed Quiz</h3>
+              <p class="timer" id="timerDisplay">15s</p>
+              <p id="timedQuestion">Which sign means "Love"?</p>
+              <div class="quiz-options" id="timedOptions"></div>
+              <button class="primary-btn" id="startTimer">Start</button>
+              <p class="quiz-feedback" id="timedFeedback"></p>
+            </div>
+            <div class="lab-card">
+              <h3>Match the Sign</h3>
+              <div class="match-grid">
+                <div class="match-column" id="matchSigns"></div>
+                <div class="match-column" id="matchWords"></div>
+              </div>
+              <p class="quiz-feedback" id="matchFeedback"></p>
+            </div>
+            <div class="lab-card">
+              <h3>Drag & Drop</h3>
+              <div class="drag-area">
+                <div class="drag-items" id="dragItems"></div>
+                <div class="drop-zone" id="dropZone">Drop the matching sign here</div>
+              </div>
+              <p class="quiz-feedback" id="dragFeedback"></p>
+            </div>
+          </div>
+        </section>
+
+        <section id="accounts" class="section">
+          <div class="section-header">
+            <h2>User accounts & saved progress</h2>
+            <p>Create a profile to save progress and sync across devices.</p>
+          </div>
+          <div class="account-grid">
+            <div class="account-card">
+              <h3>Create Account</h3>
+              <label class="field">
+                Name
+                <input type="text" id="signupName" placeholder="Sunny" />
+              </label>
+              <label class="field">
+                Email
+                <input type="email" id="signupEmail" placeholder="sunny@example.com" />
+              </label>
+              <button class="primary-btn" id="signupButton">Save Profile</button>
+              <p class="account-message" id="signupMessage"></p>
+            </div>
+            <div class="account-card">
+              <h3>Return Learner</h3>
+              <label class="field">
+                Email
+                <input type="email" id="loginEmail" placeholder="sunny@example.com" />
+              </label>
+              <button class="ghost-btn" id="loginButton">Load Progress</button>
+              <p class="account-message" id="loginMessage"></p>
+            </div>
+            <div class="account-card">
+              <h3>Saved Progress</h3>
+              <div class="saved-summary" id="savedSummary">
+                <p>No profile loaded yet.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="admin" class="section alt">
+          <div class="section-header">
+            <h2>Admin upload center</h2>
+            <p>Add new lessons and signs to the library.</p>
+          </div>
+          <div class="admin-grid">
+            <form class="admin-card" id="adminForm">
+              <h3>Add Lesson</h3>
+              <label class="field">
+                Lesson title
+                <input type="text" id="lessonTitleInput" placeholder="Colors in Sign" required />
+              </label>
+              <label class="field">
+                Video URL
+                <input type="url" id="lessonVideoInput" placeholder="https://..." required />
+              </label>
+              <label class="field">
+                Caption
+                <input type="text" id="lessonCaptionInput" placeholder="Short caption text" required />
+              </label>
+              <button class="primary-btn" type="submit">Upload Lesson</button>
+            </form>
+            <form class="admin-card" id="signForm">
+              <h3>Add Sign</h3>
+              <label class="field">
+                Sign word
+                <input type="text" id="signWordInput" placeholder="Good Morning" required />
+              </label>
+              <label class="field">
+                Category
+                <input type="text" id="signCategoryInput" placeholder="Greetings" required />
+              </label>
+              <label class="field">
+                Emoji
+                <input type="text" id="signEmojiInput" placeholder="🌞" required />
+              </label>
+              <button class="primary-btn" type="submit">Upload Sign</button>
+            </form>
+            <div class="admin-card">
+              <h3>Recent uploads</h3>
+              <ul class="upload-list" id="uploadList">
+                <li>Greetings with Sunny (video)</li>
+                <li>Family & Friends (video)</li>
+                <li>Thank You (sign)</li>
+              </ul>
             </div>
           </div>
         </section>
