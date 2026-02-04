@@ -524,7 +524,10 @@ async function loadAlphabetDataset() {
       caption: item.caption || "Sign Language MNIST image",
       alt: item.alt,
     }));
-    alphabetStatus.textContent = "Loaded Sign Language MNIST alphabet dataset.";
+    const hasImages = data.items.every((item) => item.image);
+    alphabetStatus.textContent = hasImages
+      ? "Loaded Sign Language MNIST alphabet dataset."
+      : "Dataset found, but images are missing. Run the builder script to generate PNGs.";
     renderAlphabetGrid(items, "Sign Language MNIST");
   } catch (error) {
     alphabetStatus.textContent =
