@@ -1,5 +1,27 @@
 const ageSelect = document.querySelector("#age");
 const levelSelect = document.querySelector("#level");
+const dictionaryGrid = document.querySelector("#dictionaryGrid");
+const dictionaryEmpty = document.querySelector("#dictionaryEmpty");
+const dictionarySearch = document.querySelector("#dictionarySearch");
+const dictionaryButton = document.querySelector("#dictionaryButton");
+const quizOptions = document.querySelector("#quizOptions");
+const quizQuestion = document.querySelector("#quizQuestion");
+const quizScore = document.querySelector("#quizScore");
+const quizFeedback = document.querySelector("#quizFeedback");
+const quizLevel = document.querySelector("#quizLevel");
+const nextQuestion = document.querySelector("#nextQuestion");
+const skipQuestion = document.querySelector("#skipQuestion");
+const streakFill = document.querySelector("#streakFill");
+const lessonFill = document.querySelector("#lessonFill");
+const quizFill = document.querySelector("#quizFill");
+const streakText = document.querySelector("#streakText");
+const lessonText = document.querySelector("#lessonText");
+const quizText = document.querySelector("#quizText");
+const playlistList = document.querySelector("#playlistList");
+const videoTitle = document.querySelector("#videoTitle");
+const videoMeta = document.querySelector("#videoMeta");
+const prevLesson = document.querySelector("#prevLesson");
+const nextLesson = document.querySelector("#nextLesson");
 
 const ageThemes = {
   little: {
@@ -52,6 +74,8 @@ const levelSettings = {
     transition: "0.3s",
     floatSpeed: "4.8s",
     pulseSpeed: "2.2s",
+    lessonPace: "Fast pace",
+    quizCount: 5,
   },
 };
 

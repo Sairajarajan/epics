@@ -12,3 +12,7 @@
 - Each lesson ends with short quizzes using signs.
 - Provide review packs for daily practice.
 
+## Demo site
+
+Open `index.html` in a browser to view the kids-friendly sign language learning concept site,
+including video lesson playlists, dictionary search, quizzes, and progress tracking.
