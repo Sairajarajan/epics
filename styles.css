@@ -482,19 +482,35 @@ h4 {
   animation: bob 2.6s ease-in-out infinite;
 }
 
-.sign-image {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
+.sign-media {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+}
+
+.sign-video {
+  width: 88px;
+  height: 88px;
+  border-radius: 18px;
   object-fit: cover;
+  background: #f7f7ff;
   box-shadow: 0 8px 16px rgba(41, 61, 92, 0.12);
 }
 
-.sign-option-image {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+.sign-video-label {
+  position: absolute;
+  bottom: -18px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.sign-option-video {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
   object-fit: cover;
+  background: #f7f7ff;
 }
 
 .chip {
