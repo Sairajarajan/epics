@@ -193,28 +193,7 @@ const lessonPlaylist = [
   { title: "Feelings Express", minutes: 8 },
 ];
 
-const libraryLessons = [
-  {
-    title: "Greeting Signs",
-    src: "https://cdn.coverr.co/videos/coverr-happy-girl-in-the-park-1575/1080p.mp4",
-    caption: "Greeting signs with Sunny.",
-  },
-  {
-    title: "Family & Friends",
-    src: "https://cdn.coverr.co/videos/coverr-smiling-child-1415/1080p.mp4",
-    caption: "Family and friends signs with Joy.",
-  },
-  {
-    title: "Playtime",
-    src: "https://cdn.coverr.co/videos/coverr-kids-playing-with-balloons-9030/1080p.mp4",
-    caption: "Playtime signs with Rafi.",
-  },
-  {
-    title: "Feelings",
-    src: "https://cdn.coverr.co/videos/coverr-happy-family-4790/1080p.mp4",
-    caption: "Feelings and emotions with Maya.",
-  },
-];
+const libraryLessons = [];
 
 const timedQuiz = {
   question: 'Which sign means "Love"?',
@@ -581,11 +560,23 @@ function handleAdminSign(event) {
 
 function renderLibrary() {
   libraryList.innerHTML = "";
+  if (!libraryLessons.length) {
+    const empty = document.createElement("div");
+    empty.className = "library-empty";
+    empty.textContent = "No lessons yet. Upload a lesson to begin.";
+    libraryList.appendChild(empty);
+    return;
+  }
+
   libraryLessons.forEach((lesson, index) => {
     const button = document.createElement("button");
     button.className = "library-item";
     button.textContent = lesson.title;
     button.dataset.index = index;
+    if (!lesson.src) {
+      button.classList.add("disabled");
+      button.disabled = true;
+    }
     if (index === 0) {
       button.classList.add("active");
     }
@@ -596,6 +587,10 @@ function renderLibrary() {
 
 function selectLibraryLesson(index) {
   const lesson = libraryLessons[index];
+  if (!lesson || !lesson.src) {
+    videoCaption.textContent = "Please upload a valid video URL for this lesson.";
+    return;
+  }
   lessonVideo.querySelector("source").src = lesson.src;
   lessonVideo.load();
   videoCaption.textContent = `Lesson captions: ${lesson.caption}`;
