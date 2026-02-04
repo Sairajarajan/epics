@@ -121,67 +121,114 @@ const levelSettings = {
 };
 
 const root = document.documentElement;
+const signAssets = {
+  "Thank You": {
+    image:
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80",
+    alt: "Person signing thank you",
+  },
+  Friend: {
+    image:
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80",
+    alt: "Person signing friend",
+  },
+  Play: {
+    image:
+      "https://images.unsplash.com/photo-1504151932400-72d4384f04b3?auto=format&fit=crop&w=300&q=80",
+    alt: "Person signing play",
+  },
+  Happy: {
+    image:
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80",
+    alt: "Person signing happy",
+  },
+  Family: {
+    image:
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80",
+    alt: "Person signing family",
+  },
+  Sorry: {
+    image:
+      "https://images.unsplash.com/photo-1504151932400-72d4384f04b3?auto=format&fit=crop&w=300&q=80",
+    alt: "Person signing sorry",
+  },
+  Love: {
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
+    alt: "Person signing love",
+  },
+  School: {
+    image:
+      "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=300&q=80",
+    alt: "Person signing school",
+  },
+};
+
 const signDictionary = [
-  { word: "Thank You", category: "Gratitude", emoji: "👏" },
-  { word: "Friend", category: "People", emoji: "🫶" },
-  { word: "Play", category: "Activity", emoji: "🎈" },
-  { word: "Happy", category: "Emotions", emoji: "😊" },
-  { word: "Family", category: "People", emoji: "👨‍👩‍👧" },
-  { word: "Sorry", category: "Feelings", emoji: "🙏" },
-  { word: "Love", category: "Feelings", emoji: "💖" },
-  { word: "School", category: "Places", emoji: "🏫" },
-];
+  { word: "Thank You", category: "Gratitude" },
+  { word: "Friend", category: "People" },
+  { word: "Play", category: "Activity" },
+  { word: "Happy", category: "Emotions" },
+  { word: "Family", category: "People" },
+  { word: "Sorry", category: "Feelings" },
+  { word: "Love", category: "Feelings" },
+  { word: "School", category: "Places" },
+].map((item) => ({
+  ...item,
+  image: signAssets[item.word]?.image,
+  alt: signAssets[item.word]?.alt || `Sign for ${item.word}`,
+}));
 
 const quizBank = {
   beginner: [
     {
       question: 'Which sign means "Thank You"?',
-      options: ["👏", "😊", "🎈"],
-      answer: "👏",
+      options: ["Thank You", "Happy", "Play"],
+      answer: "Thank You",
     },
     {
       question: 'Pick the sign for "Happy".',
-      options: ["😊", "🙏", "🫶"],
-      answer: "😊",
+      options: ["Happy", "Sorry", "Friend"],
+      answer: "Happy",
     },
     {
-      question: 'Which emoji stands for "Friend"?',
-      options: ["🫶", "👨‍👩‍👧", "🏫"],
-      answer: "🫶",
+      question: 'Which sign stands for "Friend"?',
+      options: ["Friend", "Family", "School"],
+      answer: "Friend",
     },
   ],
   intermediate: [
     {
       question: 'Choose the sign for "Family".',
-      options: ["👨‍👩‍👧", "🎈", "🙏", "🏫"],
-      answer: "👨‍👩‍👧",
+      options: ["Family", "Play", "Sorry", "School"],
+      answer: "Family",
     },
     {
       question: 'Which sign matches "Sorry"?',
-      options: ["🙏", "💖", "😊", "👏"],
-      answer: "🙏",
+      options: ["Sorry", "Love", "Happy", "Thank You"],
+      answer: "Sorry",
     },
     {
       question: 'Pick the sign for "School".',
-      options: ["🏫", "🎈", "🫶", "💖"],
-      answer: "🏫",
+      options: ["School", "Play", "Friend", "Love"],
+      answer: "School",
     },
   ],
   advanced: [
     {
       question: 'Which sign shows "Love"?',
-      options: ["💖", "👏", "🙏", "🎈", "😊"],
-      answer: "💖",
+      options: ["Love", "Thank You", "Sorry", "Play", "Happy"],
+      answer: "Love",
     },
     {
       question: 'Pick the sign for "Gratitude".',
-      options: ["👏", "🫶", "🏫", "👨‍👩‍👧", "😊"],
-      answer: "👏",
+      options: ["Thank You", "Friend", "School", "Family", "Happy"],
+      answer: "Thank You",
     },
     {
       question: 'Which sign best matches "Play"?',
-      options: ["🎈", "🙏", "💖", "🏫", "👨‍👩‍👧"],
-      answer: "🎈",
+      options: ["Play", "Sorry", "Love", "School", "Family"],
+      answer: "Play",
     },
   ],
 };
@@ -197,19 +244,19 @@ const libraryLessons = [];
 
 const timedQuiz = {
   question: 'Which sign means "Love"?',
-  options: ["💖", "👏", "🙏", "🎈"],
-  answer: "💖",
+  options: ["Love", "Thank You", "Sorry", "Play"],
+  answer: "Love",
   time: 15,
 };
 
 const matchPairs = [
-  { sign: "👏", word: "Thank You" },
-  { sign: "🫶", word: "Friend" },
-  { sign: "🎈", word: "Play" },
+  { sign: "Thank You", word: "Thank You" },
+  { sign: "Friend", word: "Friend" },
+  { sign: "Play", word: "Play" },
 ];
 
 const dragTarget = {
-  sign: "😊",
+  sign: "Happy",
   label: "Happy",
 };
 
@@ -255,7 +302,9 @@ function renderDictionary(items) {
     card.innerHTML = `
       <h4>${item.word}</h4>
       <p class="chip">${item.category}</p>
-      <div class="mini-loop">${item.emoji}</div>
+      <div class="mini-loop">
+        <img src="${item.image}" alt="${item.alt}" class="sign-image" />
+      </div>
     `;
     dictionaryGrid.appendChild(card);
   });
@@ -288,7 +337,12 @@ function renderQuestion() {
   question.options.forEach((option) => {
     const button = document.createElement("button");
     button.className = "quiz-option";
-    button.textContent = option;
+    const asset = signAssets[option];
+    button.dataset.value = option;
+    button.innerHTML = `
+      <img src="${asset?.image}" alt="${asset?.alt || option}" class="sign-option-image" />
+      <span>${option}</span>
+    `;
     button.addEventListener("click", () => handleAnswer(option, question.answer));
     quizOptions.appendChild(button);
   });
@@ -298,10 +352,11 @@ function handleAnswer(selected, answer) {
   const buttons = quizOptions.querySelectorAll(".quiz-option");
   buttons.forEach((button) => {
     button.disabled = true;
-    if (button.textContent === answer) {
+    const value = button.dataset.value || button.textContent;
+    if (value === answer) {
       button.classList.add("correct");
     }
-    if (button.textContent === selected && selected !== answer) {
+    if (value === selected && selected !== answer) {
       button.classList.add("wrong");
     }
   });
@@ -380,7 +435,12 @@ function startTimedQuiz() {
   timedQuiz.options.forEach((option) => {
     const button = document.createElement("button");
     button.className = "quiz-option";
-    button.textContent = option;
+    const asset = signAssets[option];
+    button.dataset.value = option;
+    button.innerHTML = `
+      <img src="${asset?.image}" alt="${asset?.alt || option}" class="sign-option-image" />
+      <span>${option}</span>
+    `;
     button.addEventListener("click", () => {
       timedFeedback.textContent =
         option === timedQuiz.answer ? "Correct! Great speed!" : "Oops, try again.";
@@ -408,7 +468,11 @@ function renderMatchGame() {
   matchPairs.forEach((pair) => {
     const signButton = document.createElement("button");
     signButton.className = "match-item";
-    signButton.textContent = pair.sign;
+    signButton.dataset.value = pair.sign;
+    const asset = signAssets[pair.sign];
+    signButton.innerHTML = `
+      <img src="${asset?.image}" alt="${asset?.alt || pair.sign}" class="sign-option-image" />
+    `;
     signButton.addEventListener("click", () => handleMatchSelection(pair.sign, "sign"));
     matchSigns.appendChild(signButton);
 
@@ -446,7 +510,8 @@ function handleMatchSelection(value, type) {
 function highlightSelection(type, value) {
   const container = type === "sign" ? matchSigns : matchWords;
   container.querySelectorAll(".match-item").forEach((item) => {
-    item.classList.toggle("selected", item.textContent === value);
+    const matchValue = item.dataset.value || item.textContent;
+    item.classList.toggle("selected", matchValue === value);
   });
 }
 
@@ -462,7 +527,10 @@ function renderDragDrop() {
 
   const dragItem = document.createElement("div");
   dragItem.className = "drag-item";
-  dragItem.textContent = dragTarget.sign;
+  const asset = signAssets[dragTarget.sign];
+  dragItem.innerHTML = `
+    <img src="${asset?.image}" alt="${asset?.alt || dragTarget.sign}" class="sign-option-image" />
+  `;
   dragItem.draggable = true;
   dragItem.addEventListener("dragstart", (event) => {
     event.dataTransfer.setData("text/plain", dragTarget.sign);
