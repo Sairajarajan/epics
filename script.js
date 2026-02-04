@@ -59,6 +59,18 @@ const nextLesson = document.querySelector("#nextLesson");
 const libraryList = document.querySelector("#libraryList");
 const lessonVideo = document.querySelector("#lessonVideo");
 const videoCaption = document.querySelector("#videoCaption");
+const signPackToggle = document.querySelector("#signPackToggle");
+const signList = document.querySelector("#signList");
+const signVideoPlayer = document.querySelector("#signVideoPlayer");
+const signCaption = document.querySelector("#signCaption");
+const progressChart = document.querySelector("#progressChart");
+const signTagsInput = document.querySelector("#signTagsInput");
+const signTable = document.querySelector("#signTable");
+const lessonTable = document.querySelector("#lessonTable");
+const builderPalette = document.querySelector("#builderPalette");
+const lessonDrop = document.querySelector("#lessonDrop");
+const lessonList = document.querySelector("#lessonList");
+const pathGrid = document.querySelector("#pathGrid");
 
 const ageThemes = {
   little: {
@@ -121,58 +133,80 @@ const levelSettings = {
 };
 
 const root = document.documentElement;
-const placeholderPoster =
-  "data:image/svg+xml;utf8," +
-  "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'>" +
-  "<rect width='100%25' height='100%25' fill='%23f7f7ff'/>" +
-  "<text x='50%25' y='50%25' fill='%23666' font-family='Arial' font-size='28' text-anchor='middle' dominant-baseline='middle'>" +
-  "Upload sign video" +
-  "</text></svg>";
+const makeSignAnimation = (label, accent = "#ff6fb0") => {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+      <rect width="220" height="220" rx="32" fill="#f7f7ff"/>
+      <circle cx="110" cy="84" r="34" fill="${accent}" opacity="0.2"/>
+      <path d="M70 120 q40 30 80 0" stroke="${accent}" stroke-width="10" fill="none" stroke-linecap="round">
+        <animate attributeName="d" dur="2s" repeatCount="indefinite"
+          values="M70 120 q40 30 80 0; M70 120 q40 -30 80 0; M70 120 q40 30 80 0" />
+      </path>
+      <circle cx="88" cy="120" r="14" fill="${accent}"/>
+      <circle cx="132" cy="120" r="14" fill="${accent}"/>
+      <text x="50%" y="190" text-anchor="middle" font-family="Arial" font-size="18" fill="#5f5f7a">
+        ${label}
+      </text>
+    </svg>
+  `;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+};
 
 const signAssets = {
   "Thank You": {
-    video: "",
-    alt: "Person signing thank you",
+    animation: makeSignAnimation("Thank You", "#ff6fb0"),
+    alt: "Sign animation for thank you",
+    caption: "Move your hand from your chin outward.",
   },
   "My Name": {
-    video: "",
-    alt: "Person signing my name",
+    animation: makeSignAnimation("My Name", "#6dd6ff"),
+    alt: "Sign animation for my name",
+    caption: "Point to yourself, then sign NAME.",
   },
   "Good Morning": {
-    video: "",
-    alt: "Person signing good morning",
+    animation: makeSignAnimation("Good Morning", "#ffd66b"),
+    alt: "Sign animation for good morning",
+    caption: "Sign GOOD then MORNING (sun rising).",
   },
   "Good Afternoon": {
-    video: "",
-    alt: "Person signing good afternoon",
+    animation: makeSignAnimation("Good Afternoon", "#8b9bff"),
+    alt: "Sign animation for good afternoon",
+    caption: "Sign GOOD then AFTERNOON (sun overhead).",
   },
   Friend: {
-    video: "",
-    alt: "Person signing friend",
+    animation: makeSignAnimation("Friend", "#ff8dc7"),
+    alt: "Sign animation for friend",
+    caption: "Hook index fingers together.",
   },
   Play: {
-    video: "",
-    alt: "Person signing play",
+    animation: makeSignAnimation("Play", "#6dd6ff"),
+    alt: "Sign animation for play",
+    caption: "Shake thumbs and pinkies.",
   },
   Happy: {
-    video: "",
-    alt: "Person signing happy",
+    animation: makeSignAnimation("Happy", "#ffd66b"),
+    alt: "Sign animation for happy",
+    caption: "Circle hands up your chest.",
   },
   Family: {
-    video: "",
-    alt: "Person signing family",
+    animation: makeSignAnimation("Family", "#8b9bff"),
+    alt: "Sign animation for family",
+    caption: "Make F-hands in a circle.",
   },
   Sorry: {
-    video: "",
-    alt: "Person signing sorry",
+    animation: makeSignAnimation("Sorry", "#ff8dc7"),
+    alt: "Sign animation for sorry",
+    caption: "Rub fist in a circle over chest.",
   },
   Love: {
-    video: "",
-    alt: "Person signing love",
+    animation: makeSignAnimation("Love", "#ff6fb0"),
+    alt: "Sign animation for love",
+    caption: "Cross arms over chest.",
   },
   School: {
-    video: "",
-    alt: "Person signing school",
+    animation: makeSignAnimation("School", "#6dd6ff"),
+    alt: "Sign animation for school",
+    caption: "Clap hands together.",
   },
 };
 
@@ -190,10 +224,39 @@ const signDictionary = [
   { word: "School", category: "Places" },
 ].map((item) => ({
   ...item,
-  video: signAssets[item.word]?.video,
+  animation: signAssets[item.word]?.animation,
   alt: signAssets[item.word]?.alt || `Sign for ${item.word}`,
-  poster: placeholderPoster,
+  caption: signAssets[item.word]?.caption || "",
+  tags: [],
 }));
+
+const signPacks = {
+  asl: {
+    label: "ASL",
+    accent: "#ff6fb0",
+    signs: signDictionary,
+  },
+  bsl: {
+    label: "BSL",
+    accent: "#6dd6ff",
+    signs: signDictionary.map((sign) => ({
+      ...sign,
+      animation: makeSignAnimation(`${sign.word} (BSL)`, "#6dd6ff"),
+      caption: `${sign.caption} (BSL)`,
+    })),
+  },
+  isl: {
+    label: "ISL",
+    accent: "#8b9bff",
+    signs: signDictionary.map((sign) => ({
+      ...sign,
+      animation: makeSignAnimation(`${sign.word} (ISL)`, "#8b9bff"),
+      caption: `${sign.caption} (ISL)`,
+    })),
+  },
+};
+
+let currentPack = "asl";
 
 const quizBank = {
   beginner: [
@@ -314,27 +377,103 @@ function renderDictionary(items) {
   dictionaryEmpty.style.display = "none";
   items.forEach((item) => {
     const asset = signAssets[item.word] || {};
+    const animation = item.animation || asset.animation || makeSignAnimation(item.word, "#6dd6ff");
     const card = document.createElement("div");
     card.className = "mini-card";
     card.innerHTML = `
       <h4>${item.word}</h4>
       <p class="chip">${item.category}</p>
       <div class="mini-loop sign-media" data-word="${item.word}">
-        <video
-          class="sign-video"
-          autoplay
-          loop
-          muted
-          playsinline
-          poster="${item.poster}"
-        >
-          ${asset.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
-        </video>
-        <span class="sign-video-label">${asset.video ? "Playing" : "Upload video"}</span>
+        <img src="${animation}" alt="${item.alt}" class="sign-anim" />
+        <span class="sign-video-label">Animated sign</span>
       </div>
     `;
     dictionaryGrid.appendChild(card);
   });
+}
+
+function renderSignLibrary(signs) {
+  signList.innerHTML = "";
+  signs.forEach((sign, index) => {
+    const item = document.createElement("div");
+    item.className = "sign-item";
+    if (index === 0) {
+      item.classList.add("active");
+      updateSignPlayer(sign);
+    }
+    item.innerHTML = `
+      <img src="${sign.animation}" alt="${sign.alt}" />
+      <div>
+        <strong>${sign.word}</strong>
+        <div class="sign-caption">${sign.caption}</div>
+      </div>
+    `;
+    item.addEventListener("click", () => {
+      signList.querySelectorAll(".sign-item").forEach((node) => node.classList.remove("active"));
+      item.classList.add("active");
+      updateSignPlayer(sign);
+    });
+    signList.appendChild(item);
+  });
+}
+
+function updateSignPlayer(sign) {
+  signVideoPlayer.pause();
+  signVideoPlayer.removeAttribute("src");
+  signVideoPlayer.load();
+  signCaption.textContent = sign.caption || "Sign video coming soon.";
+}
+
+function renderProgressChart() {
+  progressChart.innerHTML = "";
+  const values = [40, 60, 55, 70, 50, 80, 65];
+  values.forEach((value) => {
+    const bar = document.createElement("div");
+    bar.className = "progress-bar-mini";
+    bar.style.height = `${value}%`;
+    progressChart.appendChild(bar);
+  });
+}
+
+function renderAdminTables() {
+  signTable.innerHTML = signDictionary
+    .map((sign) => `<div class="table-row"><span>${sign.word}</span><span>${sign.category}</span></div>`)
+    .join("");
+  lessonTable.innerHTML = lessonPlaylist
+    .map((lesson) => `<div class="table-row"><span>${lesson.title}</span><span>${lesson.minutes} min</span></div>`)
+    .join("");
+}
+
+function renderAdaptivePath(level) {
+  const paths = {
+    beginner: ["Greetings Pack", "Family Basics", "Daily Feelings"],
+    intermediate: ["Story Builder", "Quick Conversations", "School Day"],
+    advanced: ["Roleplay Missions", "Community Stories", "Express Emotions"],
+  };
+  const items = paths[level] || paths.beginner;
+  pathGrid.innerHTML = items
+    .map((item) => `<div class="path-card"><h4>${item}</h4><p>Recommended for your level.</p></div>`)
+    .join("");
+}
+
+function handlePackToggle(event) {
+  const target = event.target.closest(".toggle-btn");
+  if (!target) return;
+  signPackToggle.querySelectorAll(".toggle-btn").forEach((btn) => btn.classList.remove("active"));
+  target.classList.add("active");
+  currentPack = target.dataset.pack;
+  const pack = signPacks[currentPack];
+  renderDictionary(pack.signs);
+  renderSignLibrary(pack.signs);
+}
+
+function handleBuilderDrop(event) {
+  event.preventDefault();
+  const type = event.dataTransfer.getData("text/plain");
+  if (!type) return;
+  const item = document.createElement("li");
+  item.textContent = `Added: ${type}`;
+  lessonList.appendChild(item);
 }
 
 function filterDictionary() {
@@ -351,6 +490,7 @@ function updateQuizLevel(level) {
   score = 0;
   quizScore.textContent = score;
   renderQuestion();
+  renderAdaptivePath(level);
 }
 
 function renderQuestion() {
@@ -365,18 +505,10 @@ function renderQuestion() {
     const button = document.createElement("button");
     button.className = "quiz-option";
     const asset = signAssets[option];
+    const animation = asset?.animation || makeSignAnimation(option, "#6dd6ff");
     button.dataset.value = option;
     button.innerHTML = `
-      <video
-        class="sign-option-video"
-        autoplay
-        loop
-        muted
-        playsinline
-        poster="${placeholderPoster}"
-      >
-        ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
-      </video>
+      <img src="${animation}" alt="${asset?.alt || option}" class="sign-option-anim" />
       <span>${option}</span>
     `;
     button.addEventListener("click", () => handleAnswer(option, question.answer));
@@ -472,18 +604,10 @@ function startTimedQuiz() {
     const button = document.createElement("button");
     button.className = "quiz-option";
     const asset = signAssets[option];
+    const animation = asset?.animation || makeSignAnimation(option, "#6dd6ff");
     button.dataset.value = option;
     button.innerHTML = `
-      <video
-        class="sign-option-video"
-        autoplay
-        loop
-        muted
-        playsinline
-        poster="${placeholderPoster}"
-      >
-        ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
-      </video>
+      <img src="${animation}" alt="${asset?.alt || option}" class="sign-option-anim" />
       <span>${option}</span>
     `;
     button.addEventListener("click", () => {
@@ -515,17 +639,9 @@ function renderMatchGame() {
     signButton.className = "match-item";
     signButton.dataset.value = pair.sign;
     const asset = signAssets[pair.sign];
+    const animation = asset?.animation || makeSignAnimation(pair.sign, "#6dd6ff");
     signButton.innerHTML = `
-      <video
-        class="sign-option-video"
-        autoplay
-        loop
-        muted
-        playsinline
-        poster="${placeholderPoster}"
-      >
-        ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
-      </video>
+      <img src="${animation}" alt="${asset?.alt || pair.sign}" class="sign-option-anim" />
     `;
     signButton.addEventListener("click", () => handleMatchSelection(pair.sign, "sign"));
     matchSigns.appendChild(signButton);
@@ -582,17 +698,9 @@ function renderDragDrop() {
   const dragItem = document.createElement("div");
   dragItem.className = "drag-item";
   const asset = signAssets[dragTarget.sign];
+  const animation = asset?.animation || makeSignAnimation(dragTarget.sign, "#6dd6ff");
   dragItem.innerHTML = `
-    <video
-      class="sign-option-video"
-      autoplay
-      loop
-      muted
-      playsinline
-      poster="${placeholderPoster}"
-    >
-      ${asset?.video ? `<source src="${asset.video}" type="video/mp4" />` : ""}
-    </video>
+    <img src="${animation}" alt="${asset?.alt || dragTarget.sign}" class="sign-option-anim" />
   `;
   dragItem.draggable = true;
   dragItem.addEventListener("dragstart", (event) => {
@@ -677,20 +785,25 @@ function handleAdminSign(event) {
   event.preventDefault();
   const word = signWordInput.value.trim();
   const category = signCategoryInput.value.trim();
-  const video = signVideoInput.value.trim();
-  if (!word || !category || !video) {
+  const animation = signVideoInput.value.trim();
+  if (!word || !category || !animation) {
     return;
   }
-  signDictionary.push({ word, category, video, poster: placeholderPoster });
+  const entry = { word, category, animation, tags: signTagsInput.value.split(",").map((tag) => tag.trim()).filter(Boolean) };
+  signDictionary.push(entry);
   signAssets[word] = {
-    video,
+    animation,
     alt: `Person signing ${word}`,
+    caption: `Custom sign for ${word}`,
   };
   uploadList.insertAdjacentHTML("afterbegin", `<li>${word} (sign)</li>`);
   signWordInput.value = "";
   signCategoryInput.value = "";
+  signTagsInput.value = "";
   signVideoInput.value = "";
   renderDictionary(signDictionary);
+  renderSignLibrary(signDictionary);
+  renderAdminTables();
 }
 
 function renderLibrary() {
@@ -760,7 +873,20 @@ playlistList.querySelectorAll("li").forEach((item, index) => {
 ageSelect.addEventListener("change", applyTheme);
 levelSelect.addEventListener("change", applyTheme);
 
+signPackToggle.addEventListener("click", handlePackToggle);
+builderPalette.querySelectorAll(".builder-item").forEach((item) => {
+  item.addEventListener("dragstart", (event) => {
+    event.dataTransfer.setData("text/plain", item.dataset.type);
+  });
+});
+lessonDrop.addEventListener("dragover", (event) => event.preventDefault());
+lessonDrop.addEventListener("drop", handleBuilderDrop);
+
 renderDictionary(signDictionary);
+renderSignLibrary(signDictionary);
+renderProgressChart();
+renderAdminTables();
+renderAdaptivePath(levelSelect.value);
 renderMatchGame();
 renderDragDrop();
 renderLibrary();
